@@ -7,10 +7,3 @@ edition = "2021"
 name = "wasm-probe"
 path = "src/main.rs"
 
-# Catatan jujur: [profile.release] di crate member sebenarnya diabaikan Cargo
-# (yang dibaca hanya root). Saya biarkan pola ini SAMA PERSIS dengan wasm-echo
-# demi konsistensi & tanpa mengubah perilaku build yang sudah hijau.
-[profile.release]
-opt-level = "s"
-lto = true
-strip = true
