@@ -9,6 +9,7 @@ pub mod error;
 pub mod profile;
 pub mod protocol;
 pub mod tcb;
+pub mod wire;
 
 pub use capability::CapabilitySet;
 pub use error::ToolError;
