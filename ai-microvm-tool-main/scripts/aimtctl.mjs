@@ -79,20 +79,21 @@ function runNodeWasi(wasmPath, args, timeoutMs, maxOutput = MAX_OUTPUT, sandbox 
     const start = Date.now();
     let stdout = "", stderr = "", truncated = false, timedOut = false;
 
-    const wasiConfig = JSON.stringify({
-      env: sandbox.env ?? {},
-      preopens: sandbox.preopens ?? {},
-    });
+    const wasiConfig = JSON.stringify({ env: sandbox.env ?? {}, preopens: sandbox.preopens ?? {} });
 
     const runnerScript = `
 import { WASI } from "node:wasi";
 import { readFileSync } from "node:fs";
+import { basename } from "node:path";
 
 const [wasmPath, configJson, ...args] = process.argv.slice(1);
 const cfg = JSON.parse(configJson);
+const argv0 = basename(wasmPath).endsWith(".wasm")
+  ? basename(wasmPath).slice(0, -5)
+  : basename(wasmPath);
 const wasi = new WASI({
   version: "preview1",
-  args: ["wasm-echo", ...args],
+  args: [argv0, ...args],
   env: cfg.env,
   preopens: cfg.preopens,
 });

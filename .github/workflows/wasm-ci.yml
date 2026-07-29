@@ -10,7 +10,7 @@ on:
     paths:
       - 'ai-microvm-tool-main/**'
       - '.github/workflows/wasm-ci.yml'
-  workflow_dispatch:   # supaya Anda bisa trigger build manual kapan pun, tanpa ubah kode
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   build-wasm:
-    name: Build wasm-echo (Rust -> WASI)
+    name: Build WASM modules (Rust -> WASI)
     runs-on: ubuntu-latest
 
     steps:
@@ -43,24 +43,21 @@ jobs:
         working-directory: ai-microvm-tool-main
         run: cargo check --workspace --target wasm32-wasip1
 
-      - name: Build release
+      - name: Build release (semua crate bin)
         working-directory: ai-microvm-tool-main
-        run: cargo build --release --target wasm32-wasip1 -p wasm-echo
+        run: cargo build --release --target wasm32-wasip1 --workspace
 
-      # Taruh hasil build ke tempat tujuan akhirnya, supaya saat Anda
-      # extract artifact di root workspace, file mendarat PERSIS di
-      # ai-microvm-tool-main/wasm/wasm-echo.wasm (tidak perlu mv manual).
-      - name: Stage artifact into wasm/
+      - name: Stage all wasm into wasm/
         working-directory: ai-microvm-tool-main
         run: |
           mkdir -p wasm
-          cp target/wasm32-wasip1/release/wasm-echo.wasm wasm/wasm-echo.wasm
-          ls -lh wasm/wasm-echo.wasm
+          cp target/wasm32-wasip1/release/*.wasm wasm/ 2>/dev/null || true
+          ls -lh wasm/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: wasm-echo
-          path: ai-microvm-tool-main/wasm/wasm-echo.wasm
+          name: wasm-modules
+          path: ai-microvm-tool-main/wasm/*.wasm
           if-no-files-found: error
           retention-days: 14

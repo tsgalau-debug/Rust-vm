@@ -1,0 +1,15 @@
+{
+  "name": "wasm-probe",
+  "backend": "wasm",
+  "engine": "auto",
+  "wasm": "wasm/wasm-probe.wasm",
+  "timeout_ms": 5000,
+  "max_output_bytes": 1048576,
+  "env": {
+    "APP_ENV": "sandbox",
+    "GREETING": "halo",
+    "PROBE_SECRET": "hanya-untuk-sandbox"
+  },
+  "preopens": { "/sandbox": "/tmp" },
+  "allow_args": null
+}
