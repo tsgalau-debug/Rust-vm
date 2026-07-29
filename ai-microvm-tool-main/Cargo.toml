@@ -6,6 +6,7 @@ members = [
   "crates/wasm-probe",
   "crates/shared-types",
   "crates/vm-runtime",
+  "crates/capability-model",
 ]
 
 [profile.release]

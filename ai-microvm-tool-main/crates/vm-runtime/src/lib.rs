@@ -98,7 +98,7 @@ mod tests {
         fn snapshot(&self, _: VmId, _: SnapshotOptions) -> Result<SnapshotRef, ToolError> {
             Ok(SnapshotRef { id: "s".into(), profile: "p".into(), content_id: "c".into() })
         }
-        fn restore(&self, s: SnapshotRef, _: &VmProfile) -> Result<VmId, ToolError> { Ok(VmId(1)) }
+        fn restore(&self, _s: SnapshotRef, _: &VmProfile) -> Result<VmId, ToolError> { Ok(VmId(1)) }
         fn execute(&self, v: VmId, _: CommandRequest) -> Result<CommandResult, ToolError> {
             self.calls.lock().unwrap().push(format!("execute:{}", v.0));
             if self.fail_execute { return Err(ToolError::GuestAgent("boom".into())); }

@@ -1,0 +1,13 @@
+[package]
+name = "capability-model"
+version = "0.1.0"
+edition = "2021"
+
+# LSM kernel: murni evaluasi policy. TIDAK baca file (pemuatan file urusan
+# orkestrator/aimtctl) → modul ini tetap deterministik & gampang di-test.
+[dependencies]
+shared-types = { path = "../shared-types" }
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1"
