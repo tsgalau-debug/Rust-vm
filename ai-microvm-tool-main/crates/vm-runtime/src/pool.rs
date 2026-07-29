@@ -57,7 +57,7 @@ impl VmPool {
             g.tcbs[i].profile_id == profile_id && g.tcbs[i].state() == Some(VmState::Ready)
         });
         let idx = pos.ok_or(ToolError::PoolExhausted)?;
-        g.free.swap_remove(pos);
+        g.free.swap_remove(idx);
         let t = &mut g.tcbs[idx];
         Self::transition(t, VmState::Leased)?;
         Ok(VmHandle { slot: idx, generation: t.generation, vm_id: VmId(t.vm_id) })

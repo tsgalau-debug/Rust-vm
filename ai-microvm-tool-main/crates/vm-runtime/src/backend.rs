@@ -4,8 +4,8 @@
 use serde::{Deserialize, Serialize};
 use shared_types::{CommandRequest, CommandResult, ToolError, VmId, VmProfile};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub enum SnapshotKind { Golden, Warm, Debug }
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum SnapshotKind { #[default] Golden, Warm, Debug }
 
 #[derive(Debug, Clone, Default)]
 pub struct SnapshotOptions { pub kind: SnapshotKind }
