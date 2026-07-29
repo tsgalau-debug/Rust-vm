@@ -43,6 +43,10 @@ jobs:
         working-directory: ai-microvm-tool-main
         run: cargo check --workspace --target wasm32-wasip1
 
+      - name: Test shared-types (host target — no KVM needed)
+        working-directory: ai-microvm-tool-main
+        run: cargo test -p shared-types
+
       - name: Build release (semua crate bin)
         working-directory: ai-microvm-tool-main
         run: cargo build --release --target wasm32-wasip1 --workspace
