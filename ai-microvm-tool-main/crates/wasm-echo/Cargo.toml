@@ -1,0 +1,8 @@
+[package]
+name = "wasm-echo"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "wasm-echo"
+path = "src/main.rs"

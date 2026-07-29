@@ -1,0 +1,15 @@
+/target
+
+node_modules
+.env
+*.log
+
+# Jangan commit artifact WASM hasil build lokal
+/artifacts/wasm/*.wasm
+/artifacts/wasm/*.component.wasm
+
+# Tapi biarkan .gitkeep
+!/artifacts/wasm/.gitkeep
+
+/wasm/*.wasm
+!/wasm/.gitkeep

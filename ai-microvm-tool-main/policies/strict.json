@@ -1,0 +1,9 @@
+{
+  "name": "strict",
+  "allowed_engines": ["node-wasi"],
+  "max_timeout_ms": 3000,
+  "max_output_bytes": 65536,
+  "max_arg_count": 8,
+  "allow_args": null,
+  "deny_args": ["rm -rf", "sudo", "--privileged", "shutdown", "mkfs"]
+}

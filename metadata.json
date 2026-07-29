@@ -1,0 +1,6 @@
+{
+  "name": "AI MicroVM Tooling Studio",
+  "description": "Experimental WASM runtime and MicroVM tooling sandbox environment.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

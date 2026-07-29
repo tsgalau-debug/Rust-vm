@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+
+members = [
+  "crates/wasm-echo",
+]
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true

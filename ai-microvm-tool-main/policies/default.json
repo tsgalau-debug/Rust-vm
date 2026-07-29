@@ -1,0 +1,9 @@
+{
+  "name": "default",
+  "allowed_engines": ["auto", "node-wasi", "wasmtime-cli"],
+  "max_timeout_ms": 10000,
+  "max_output_bytes": 1048576,
+  "max_arg_count": 64,
+  "allow_args": null,
+  "deny_args": ["rm -rf", "sudo", "--privileged", "shutdown", "mkfs", ":(){"]
+}

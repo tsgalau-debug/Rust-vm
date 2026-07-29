@@ -1,0 +1,11 @@
+{
+  "name": "wasm-echo",
+  "backend": "wasm",
+  "engine": "auto",
+  "wasm": "wasm/wasm-echo.wasm",
+  "timeout_ms": 5000,
+  "max_output_bytes": 1048576,
+  "env": {},
+  "preopens": {},
+  "allow_args": null
+}
