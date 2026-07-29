@@ -1,0 +1,9 @@
+[package]
+name = "wasm-fs"
+version = "0.1.0"
+edition = "2021"
+
+# Satu-satunya dep guest: serde_json, demi escaping string yang BENAR
+# (konten file arbitrer masuk ke string JSON). Bukan soal gaya.
+[dependencies]
+serde_json = "1"

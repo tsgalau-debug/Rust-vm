@@ -1,0 +1,11 @@
+{
+  "name": "wasm-fs",
+  "backend": "wasm",
+  "engine": "auto",
+  "wasm": "wasm/wasm-fs.wasm",
+  "timeout_ms": 5000,
+  "max_output_bytes": 1048576,
+  "env": {},
+  "preopens": { "/sandbox": "/tmp" },
+  "allow_args": null
+}

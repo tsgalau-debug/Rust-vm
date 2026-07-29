@@ -1,7 +1,6 @@
 //! wire — format biner untuk CommandRequest/CommandResult melintasi batas host<->guest (vsock).
 //! Frame = header tetap 24 byte (little-endian, lintas-mesin) + payload JSON.
 //! Ini bagian dari ABI: host & guest WAJIB sepakat pada layout ini.
-use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 use crate::protocol::{CommandRequest, CommandResult};

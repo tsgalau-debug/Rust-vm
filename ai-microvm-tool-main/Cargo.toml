@@ -7,6 +7,7 @@ members = [
   "crates/shared-types",
   "crates/vm-runtime",
   "crates/capability-model",
+  "crates/wasm-fs",
 ]
 
 [profile.release]
