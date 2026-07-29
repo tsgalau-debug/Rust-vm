@@ -1,0 +1,13 @@
+[package]
+name = "vm-runtime"
+version = "0.1.0"
+edition = "2021"
+
+# Lapisan orkestrasi "OS": boleh punya dependency lebih dari shared-types.
+# - shared-types : kontrak ABI (CommandRequest/Result, VmTcb, ToolError, ...)
+# - serde        : SnapshotManifest bisa di-inspeksi/disimpan sebagai JSON
+# - sha2         : content-addressed snapshot = integritas SUNGGUHAN, bukan hash mainan
+[dependencies]
+shared-types = { path = "../shared-types" }
+serde = { version = "1", features = ["derive"] }
+sha2 = "0.10"

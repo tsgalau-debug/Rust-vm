@@ -5,6 +5,7 @@ members = [
   "crates/wasm-echo",
   "crates/wasm-probe",
   "crates/shared-types",
+  "crates/vm-runtime",
 ]
 
 [profile.release]

@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   build-wasm:
-    name: Build WASM modules (Rust -> WASI)
+    name: OS libs (host) + WASM tool bins
     runs-on: ubuntu-latest
 
     steps:
@@ -33,25 +33,28 @@ jobs:
         with:
           targets: wasm32-wasip1
 
-      - name: Cache cargo (scoped ke subfolder core)
+      - name: Cache cargo
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: ai-microvm-tool-main
           shared-key: wasm-ci
 
-      - name: Cargo check
+      # 1) Semua crate (shared-types + vm-runtime + bins) harus compile di HOST.
+      - name: Cargo check (host)
         working-directory: ai-microvm-tool-main
-        run: cargo check --workspace --target wasm32-wasip1
+        run: cargo check --workspace
 
-      - name: Test shared-types (host target — no KVM needed)
+      # 2) Semua logika OS diuji di HOST — tanpa KVM.
+      - name: Cargo test (host, all crates)
         working-directory: ai-microvm-tool-main
-        run: cargo test -p shared-types
+        run: cargo test --workspace
 
-      - name: Build release (semua crate bin)
+      # 3) Hanya BINARY tool yang jadi artifact WASM (guest). Lib host tidak ikut.
+      - name: Build WASM tool bins
         working-directory: ai-microvm-tool-main
-        run: cargo build --release --target wasm32-wasip1 --workspace
+        run: cargo build --release --target wasm32-wasip1 --bins
 
-      - name: Stage all wasm into wasm/
+      - name: Stage wasm into wasm/
         working-directory: ai-microvm-tool-main
         run: |
           mkdir -p wasm
