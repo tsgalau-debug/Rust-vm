@@ -9,6 +9,8 @@
 //! perhatikan quoting; via pintu HTTP (/api/run, args = array JSON) bersih total.
 //! Jalur stdin (tanpa argv) = jangkar 1b'.
 
+mod sha256;
+
 use serde_json::{json, Value};
 use std::io::Read;
 
@@ -134,6 +136,35 @@ fn op_write(p: &str, content: &str) -> Value {
     }
 }
 
+fn op_hash(p: &str) -> Value {
+    let m = match std::fs::metadata(p) {
+        Ok(m) => m,
+        Err(e) => return err_json("hash", &format!("stat: {e}")),
+    };
+    if !m.is_file() {
+        return err_json("hash", "not a regular file");
+    }
+    let size = m.len();
+    let mut f = match std::fs::File::open(p) {
+        Ok(f) => f,
+        Err(e) => return err_json("hash", &format!("open: {e}")),
+    };
+    let mut h = sha256::Sha256::new();
+    let mut buf = [0u8; 8192];
+    loop {
+        let n = match f.read(&mut buf) {
+            Ok(n) => n,
+            Err(e) => return err_json("hash", &format!("read: {e}")),
+        };
+        if n == 0 {
+            break;
+        }
+        h.update(&buf[..n]);
+    }
+    let digest = h.hex_finalize();
+    json!({ "op": "hash", "path": p, "ok": true, "digest": digest, "size": size })
+}
+
 fn dispatch(args: &[String]) -> Value {
     let op = args.get(1).map(String::as_str);
     match op {
@@ -149,6 +180,7 @@ fn dispatch(args: &[String]) -> Value {
                 "stat" => op_stat(p),
                 "read" => op_read(p),
                 "list" => op_list(p),
+                "hash" => op_hash(p),
                 _ => usage_json(),
             },
         },
@@ -217,5 +249,12 @@ mod tests {
         let v = dispatch(&["wasm-fs".into(), "write".into(), "/p".into()]);
         assert_eq!(v["ok"], false);
         assert_eq!(v["op"], "write");
+    }
+
+    #[test]
+    fn dispatch_hash_missing_path() {
+        let v = dispatch(&["wasm-fs".into(), "hash".into()]);
+        assert_eq!(v["ok"], false);
+        assert_eq!(v["op"], "hash");
     }
 }
