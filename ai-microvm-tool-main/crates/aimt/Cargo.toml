@@ -1,0 +1,13 @@
+[package]
+name = "aimt"
+version = "0.1.0"
+edition = "2021"
+
+# Otak-Rust sisi guest: konsumen pertama library OS di dalam WASM.
+# - capability-model : LSM kernel (evaluasi policy)
+# - shared-types     : BackendKind + CommandRequest (kontrak ABI)
+# - serde_json       : produce JSON output + parse policy (fitur sekunder)
+[dependencies]
+capability-model = { path = "../capability-model" }
+shared-types = { path = "../shared-types" }
+serde_json = "1"
